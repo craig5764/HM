@@ -1,3 +1,4 @@
+#NoTrayIcon
 SetBatchLines, -1
 SetFormat, Float, 0.0
 Index1 := 0
