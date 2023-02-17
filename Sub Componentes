@@ -1,0 +1,34 @@
+SetBatchLines, -1
+SetFormat, Float, 0.0
+Index1 := 0
+Index2 := 0
+tc := 2
+pivot := {}
+xl := ComObjActive("Excel.Application")
+
+Plan_Count := xl.Sheets("Plan").UsedRange.Rows.Count - 1
+Pivot_Count := xl.Sheets("pivot").UsedRange.Rows.Count - 1
+
+Loop, % Pivot_Count {
+	pivot_code := xl.Sheets("pivot").Cells(A_Index+1, 1).Value
+	pivot_qty := xl.Sheets("pivot").Cells(A_Index+1, 2).Value
+	pivot[pivot_code] := pivot_qty
+}
+
+Loop, % Plan_Count {
+	Index1 ++
+	Code_Plan := xl.Sheets("Plan").Cells(Index1, 7).Value
+	Qty_Plan := xl.Sheets("Plan").Cells(Index1, 11).Value * 1
+	if(Code_Plan != "" && Qty_Plan > 0) {
+		tc ++
+		tc2 := tc + pivot[Code_Plan] - 1
+		if(tc2!="") {
+			xl.Sheets("Table").Range("C" . tc . ":C" . tc2).Value := Code_Plan
+			tc := tc2
+		}
+		else
+			tc -= 1
+	}
+}
+Msgbox, , Sub Componentes, Actualizacion de datos completa.
+ExitApp
