@@ -9,6 +9,9 @@ xl := ComObjActive("Excel.Application")
 
 Plan_Count := xl.Sheets("Plan").UsedRange.Rows.Count - 1
 Pivot_Count := xl.Sheets("pivot").UsedRange.Rows.Count - 1
+Table_Count := xl.Sheets("Table").UsedRange.Rows.Count
+
+xl.Sheets("Table").Range("C3:C" Table_Count).Value := ""
 
 Loop, % Pivot_Count {
 	pivot_code := xl.Sheets("pivot").Cells(A_Index+1, 1).Value
